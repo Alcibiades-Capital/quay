@@ -1,6 +1,12 @@
+-- Create addresses table
+CREATE TABLE addresses
+(
+    address TEXT PRIMARY KEY
+);
+
 CREATE TABLE domains
 (
-    name   VARCHAR(255) PRIMARY KEY,
+    name   TEXT PRIMARY KEY,
     expires BIGINT NOT NULL
 );
 CREATE TABLE networks
@@ -10,26 +16,26 @@ CREATE TABLE networks
 );
 CREATE TABLE taxonomies
 (
-    singular VARCHAR(65) PRIMARY KEY,
-    plural VARCHAR(65) UNIQUE
+    singular TEXT PRIMARY KEY,
+    plural TEXT UNIQUE
 );
 CREATE TABLE terms
 (
-    singular VARCHAR(65) PRIMARY KEY,
-    plural VARCHAR(65) UNIQUE
+    singular TEXT PRIMARY KEY,
+    plural TEXT UNIQUE
 );
 CREATE TABLE domains_taxonomies
 (
-    domain VARCHAR(255) NOT NULL,
-    taxonomy VARCHAR(65) NOT NULL,
+    domain TEXT NOT NULL,
+    taxonomy TEXT NOT NULL,
     PRIMARY KEY(domain, taxonomy),
     FOREIGN KEY (domain) REFERENCES domains(name),
     FOREIGN KEY (taxonomy) REFERENCES taxonomies(singular)
 );
 CREATE TABLE terms_taxonomies
 (
-    term VARCHAR(255) NOT NULL,
-    taxonomy VARCHAR(65) NOT NULL,
+    term TEXT NOT NULL,
+    taxonomy TEXT NOT NULL,
     PRIMARY KEY(term, taxonomy),
     FOREIGN KEY (term) REFERENCES terms(singular),
     FOREIGN KEY (taxonomy) REFERENCES taxonomies(singular)
