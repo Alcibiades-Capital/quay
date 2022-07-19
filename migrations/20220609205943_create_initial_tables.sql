@@ -9,7 +9,13 @@ CREATE TABLE users
     "user" TEXT REFERENCES addresses(address) PRIMARY KEY,
     -- TODO(Are we using ceramic here, or storing user data in a database?)
     -- Which details are valuable for us to have? Email, perhaps?
-    email TEXT
+    email TEXT,
+    picture TEXT,
+    bio TEXT,
+    twitter TEXT,
+    instagram TEXT,
+    webLink TEXT,
+    banner TEXT
 );
 
 CREATE TABLE domains
