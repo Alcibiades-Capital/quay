@@ -67,7 +67,8 @@ CREATE TABLE terms_taxonomies
 
 CREATE TABLE ens_sales
 (
-    domain      TEXT REFERENCES domains (name) PRIMARY KEY,
+    eventId     TEXT PRIMARY KEY,
+    domain      TEXT REFERENCES domains (name),
     contract    TEXT REFERENCES addresses (address),
     orderSource TEXT,
     fillSource  TEXT,
