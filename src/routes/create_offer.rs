@@ -24,18 +24,18 @@ async fn create_offer(
 
 #[tracing::instrument(
     name = "Saving new offer details in the database",
-    skip(new_offer, pool, seaport)
+    skip(_new_offer, _pool, seaport)
 )]
 pub async fn insert_offer(
-    pool: &PgPool,
-    new_offer: &Order,
+    _pool: &PgPool,
+    _new_offer: &Order,
     seaport: &Seaport<Provider<Http>>,
 ) -> Result<(), sqlx::Error> {
     // TODO(Implement queries)
     // The order model in the database differs significantly from the contract order parameters
     // Hashes are used, which must be updated from indexed events
     //let order_hash =
-    let order_status = seaport
+    let _order_status = seaport
         .get_order_status([
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0,

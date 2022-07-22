@@ -22,7 +22,7 @@ Routes and services are defined in `/routes` using `actix-web` macros.
 
 ### Telemetry
 
-`telemetry.rs` and `startup.rs` setup a tracing framework that provides rich 
+`telemetry.rs` and `startup.rs` set up a tracing framework that provides rich 
 logs for runtime telemetry and development debugging. These tracing logs are 
 then extended via macros on routes.
 
@@ -78,7 +78,7 @@ at application startup.
 
 Developers will need rust and docker to work on this project. Docker is used 
 to host a local instance  of the postgres database to execute tests against.
-To setup a local database, run: `./scripts/init_db.sh`.
+To set up a local database, run: `./scripts/init_db.sh`.
 
 #### Building the project
 
@@ -94,17 +94,17 @@ Run `cargo test` any time after setting up your development environment.
 
 ## CI/CD
 
-CI/CD is implemented using Github actions, the scripting is in 
+CI/CD is implemented using GitHub actions, the scripting is in 
 `.github/workflows`. There are certain actions which run on open 
 pull requests, and deploy actions, which run only after passing 
 tests on `master`.
 
 ### Continuous Integration
 
-This project uses `clippy`, `tarpaulin`, `wiremock`, and a number of other crates 
-to provide end to end tests, unit tests, formatting, linting, and static 
-analasis to enforce code quality. These tests are then run in an automated 
-fashion using Github actions.
+This project uses `clippy`, `tarpaulin`, and a number of other crates 
+to provide end-to-end tests, unit tests, formatting, linting, and static 
+analysis to enforce code quality. These tests are then run in an automated 
+fashion using GitHub actions.
 
 ### Continuous Deployment
 
