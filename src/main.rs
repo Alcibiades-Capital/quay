@@ -1,7 +1,7 @@
 //! src/main.rs
-use jetty::configuration::get_configuration;
-use jetty::startup::Application;
-use jetty::telemetry::{get_subscriber, init_subscriber};
+use quay::configuration::get_configuration;
+use quay::startup::Application;
+use quay::telemetry::{get_subscriber, init_subscriber};
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {

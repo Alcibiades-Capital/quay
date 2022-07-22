@@ -1,5 +1,5 @@
 [package]
-name = "jetty"
+name = "quay"
 version = "0.1.0"
 authors = ["Alcibiades <alcibiades.eth@protonmail.com>"]
 edition = "2021"

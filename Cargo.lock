@@ -1730,32 +1730,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "112c678d4050afce233f4f2852bb2eb519230b3cf12f33585275537d7e41578d"
 
 [[package]]
-name = "jetty"
-version = "0.1.0"
-dependencies = [
- "actix-rt",
- "actix-web",
- "chrono",
- "config",
- "ethers",
- "log",
- "once_cell",
- "reqwest",
- "serde",
- "serde-aux",
- "serde_json",
- "sqlx",
- "tokio",
- "tracing",
- "tracing-actix-web",
- "tracing-bunyan-formatter",
- "tracing-futures",
- "tracing-log",
- "tracing-subscriber",
- "uuid 1.1.2",
-]
-
-[[package]]
 name = "jobserver"
 version = "0.1.24"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2274,6 +2248,32 @@ dependencies = [
  "hashbrown 0.11.2",
  "idna",
  "psl-types",
+]
+
+[[package]]
+name = "quay"
+version = "0.1.0"
+dependencies = [
+ "actix-rt",
+ "actix-web",
+ "chrono",
+ "config",
+ "ethers",
+ "log",
+ "once_cell",
+ "reqwest",
+ "serde",
+ "serde-aux",
+ "serde_json",
+ "sqlx",
+ "tokio",
+ "tracing",
+ "tracing-actix-web",
+ "tracing-bunyan-formatter",
+ "tracing-futures",
+ "tracing-log",
+ "tracing-subscriber",
+ "uuid 1.1.2",
 ]
 
 [[package]]

@@ -15,7 +15,7 @@ RUN cargo chef cook --release --recipe-path recipe.json
 COPY . .
 ENV SQLX_OFFLINE true
 # Build our project
-RUN cargo build --release --bin jetty
+RUN cargo build --release --bin quay
 
 FROM debian:bullseye-slim AS runtime
 WORKDIR /app
@@ -25,7 +25,7 @@ RUN apt-get update -y \
  && apt-get autoremove -y \
  && apt-get clean -y \
  && rm -rf /var/lib/apt/lists/*
-COPY --from=builder /app/target/release/jetty jetty
+COPY --from=builder /app/target/release/quay quay
 COPY configuration configuration
 ENV APP_ENVIRONMENT production
-ENTRYPOINT ["./jetty"]
+ENTRYPOINT ["./quay"]

@@ -1,6 +1,6 @@
-use jetty::configuration::{get_configuration, DatabaseSettings};
-use jetty::startup::{get_connection_pool, Application};
-use jetty::telemetry::{get_subscriber, init_subscriber};
+use quay::configuration::{get_configuration, DatabaseSettings};
+use quay::startup::{get_connection_pool, Application};
+use quay::telemetry::{get_subscriber, init_subscriber};
 use once_cell::sync::Lazy;
 use sqlx::{Connection, Executor, PgConnection, PgPool};
 use uuid::Uuid;
