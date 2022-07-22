@@ -18,6 +18,7 @@ config = { version = "0.11", default-features = false, features = ["yaml"] }
 uuid = { version = "0.8.1", features = ["v4", "serde"] }
 chrono = "0.4.19"
 log = "0.4.17"
+time = "0.2.23"
 tracing = "0.1.35"
 tracing-subscriber = { version = "0.3.11", features = ["registry", "env-filter"] }
 tracing-bunyan-formatter = "0.3.2"
