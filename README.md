@@ -2,7 +2,7 @@
 
 `jetty` is the backend web service, related workers, and database schema/queries
 which power the Kodex platform. Jetty is downstreamed from 
-[Quay](https://github.com/Alcibiades-Capital/quay). `jetty` is implemented in
+[quay](https://github.com/Alcibiades-Capital/quay). `jetty` is implemented in
 rust using [actix-web](https://actix.rs/docs/), 
 [sqlx](https://github.com/launchbadge/sqlx) and 
 [ethers-rs](https://github.com/gakonst/ethers-rs) along with other crates.
@@ -83,6 +83,10 @@ To setup a local database, run: `./scripts/init_db.sh`.
 #### Building the project
 
 Run `cargo build` to build the project.
+
+### Tests
+
+Tests live in the `/tests` folder.
 
 #### Running the tests
 
