@@ -7,8 +7,7 @@ CREATE TABLE addresses
 CREATE TABLE users
 (
     "user"    TEXT REFERENCES addresses (address) PRIMARY KEY,
-    -- TODO(Are we using ceramic here, or storing user data in a database?)
-    -- Which details are valuable for us to have? Email, perhaps?
+    userName  TEXT,
     email     TEXT,
     picture   TEXT,
     bio       TEXT,
@@ -56,6 +55,13 @@ CREATE TABLE domains_taxonomies
     domain   TEXT NOT NULL REFERENCES domains (name),
     taxonomy TEXT NOT NULL REFERENCES taxonomies (singular),
     PRIMARY KEY (domain, taxonomy)
+);
+
+CREATE TABLE domains_terms
+(
+    domain   TEXT NOT NULL REFERENCES domains (name),
+    term TEXT NOT NULL REFERENCES terms (singular),
+    PRIMARY KEY (domain, term)
 );
 
 CREATE TABLE terms_taxonomies
