@@ -1,94 +1,127 @@
--- Some food for thought:
--- https://dba.stackexchange.com/questions/62934/adding-unsigned-256-bit-integers-in-postgresql
-
--- Create a type for 256 bit unsigned integers
-CREATE DOMAIN uint_256 AS NUMERIC NOT NULL
-    CHECK (VALUE >= 0 AND VALUE < 2 ^ 256)
-    CHECK (SCALE(VALUE) = 0);
-
--- TODO(Should accounts be represented as a uint160 rather than a hex string)
--- TODO(Should bytes32 be uint256 rather than a hex string)
--- TODO(Will it be easier to store uint256 as a CHAR(64) hex?)
--- TODO(Do timestamps really need to support uint256?)
--- TODO(Is there a natural key for offers and considerations, like a hash?)
--- TODO(Is there a natural key for order_components)
--- TODO(Is there a natural key for orders)
-
 -- Create addresses table
 CREATE TABLE addresses
 (
-    address CHAR(40) PRIMARY KEY
+    address TEXT PRIMARY KEY
 );
 
--- Create fees table
-CREATE TABLE fees
+CREATE TABLE users
 (
-    id           BIGSERIAL PRIMARY KEY,
-    address      CHAR(40) REFERENCES addresses,
-    -- Basis points can never exceed 327%, but they shouldn't need to.
-    basis_points SMALLINT
+    "user"    TEXT REFERENCES addresses (address) PRIMARY KEY,
+    userName  TEXT,
+    email     TEXT,
+    picture   TEXT,
+    bio       TEXT,
+    twitter   TEXT,
+    instagram TEXT,
+    webLink   TEXT,
+    banner    TEXT
 );
 
--- Create considerations table
-CREATE TABLE considerations
+CREATE TABLE domains
 (
-    id                     BIGSERIAL PRIMARY KEY,
-    -- This is the ItemType enum
-    item_type              SMALLINT,
-    token                  CHAR(40) REFERENCES addresses,
-    identifier_or_criteria uint_256,
-    start_amount           uint_256,
-    end_amount             uint_256,
-    recipient              CHAR(40) REFERENCES addresses
+    name    TEXT PRIMARY KEY,
+    expires BIGINT NOT NULL,
+    tokenId TEXT
 );
 
--- Create offers table
-CREATE TABLE offers
+CREATE TABLE likes
 (
-    id                     BIGSERIAL PRIMARY KEY,
-    item_type              SMALLINT,
-    token                  CHAR(40) REFERENCES addresses,
-    identifier_or_criteria uint_256,
-    start_amount           uint_256,
-    end_amount             uint_256
+    "user" TEXT REFERENCES users ("user"),
+    domain TEXT REFERENCES domains (name),
+    PRIMARY KEY (domain, "user"),
+    liked  BOOLEAN
 );
 
--- Create order components table
-CREATE TABLE order_components
+CREATE TABLE networks
 (
-    id            BIGSERIAL PRIMARY KEY,
-    offerer       CHAR(40) REFERENCES addresses,
-    zone          CHAR(40) REFERENCES addresses,
-    offer         BIGSERIAL REFERENCES offers,
-    consideration BIGSERIAL REFERENCES considerations,
-    start_time    uint_256,
-    end_time      uint_256,
-    zone_hash     CHAR(64),
-    salt          uint_256,
-    conduit_key   CHAR(64),
-    counter       uint_256
+    network       INTEGER PRIMARY KEY,
+    indexed_block BIGINT NOT NULL
 );
 
-CREATE TABLE orders
+CREATE TABLE taxonomies
 (
-    id               BIGSERIAL PRIMARY KEY,
-    created_date     uint_256,
-    closing_date     uint_256                      NULL,
-    listing_time     uint_256,
-    expiration_time  uint_256,
-    order_hash       CHAR(64)                      NULL,
-    protocol_data    BIGSERIAL REFERENCES order_components,
-    protocol_address CHAR(40) REFERENCES addresses NULL,
-    maker            CHAR(40) REFERENCES addresses,
-    taker            CHAR(40) REFERENCES addresses NULL,
-    -- TODO(Nail down the unit here)
-    current_price    TEXT,
-    maker_fees       BIGSERIAL REFERENCES fees,
-    taker_fees       BIGSERIAL REFERENCES fees,
-    side             SMALLINT,
-    order_type       SMALLINT,
-    canceled         BOOLEAN,
-    finalized        BOOLEAN,
-    marked_invalid   BOOLEAN,
-    client_signature CHAR(64)                      NULL
+    singular TEXT PRIMARY KEY,
+    plural   TEXT UNIQUE
+);
+
+CREATE TABLE terms
+(
+    singular TEXT PRIMARY KEY,
+    plural   TEXT UNIQUE
+);
+
+CREATE TABLE domains_taxonomies
+(
+    domain   TEXT NOT NULL REFERENCES domains (name),
+    taxonomy TEXT NOT NULL REFERENCES taxonomies (singular),
+    PRIMARY KEY (domain, taxonomy)
+);
+
+CREATE TABLE domains_terms
+(
+    domain   TEXT NOT NULL REFERENCES domains (name),
+    term TEXT NOT NULL REFERENCES terms (singular),
+    PRIMARY KEY (domain, term)
+);
+
+CREATE TABLE terms_taxonomies
+(
+    term     TEXT NOT NULL REFERENCES terms (singular),
+    taxonomy TEXT NOT NULL REFERENCES taxonomies (singular),
+    PRIMARY KEY (term, taxonomy)
+);
+
+CREATE TABLE ens_sales
+(
+    eventId     TEXT PRIMARY KEY,
+    domain      TEXT REFERENCES domains (name),
+    contract    TEXT REFERENCES addresses (address),
+    orderSource TEXT,
+    fillSource  TEXT,
+    orderSide   TEXT,
+    fromAddr    TEXT REFERENCES addresses (address),
+    toAddr      TEXT REFERENCES addresses (address),
+    amount      TEXT,
+    txHash      TEXT,
+    timestamp   DATE,
+    price       TEXT,
+    saleAsset   TEXT,
+    bundleId    TEXT,
+    bundle      BOOLEAN,
+    blockNumber BIGINT
+);
+
+-- TODO(Do we need these right now if we are using seaport?)
+CREATE TABLE kodex_listings
+(
+    domain         TEXT REFERENCES domains (name) PRIMARY KEY,
+    owner          TEXT REFERENCES addresses (address),
+    buyer          TEXT REFERENCES addresses (address),
+    askPrice       TEXT,
+    duration       TEXT,
+    active         boolean,
+    executed       boolean,
+    executedPrice  TEXT,
+    listingTxHash  TEXT,
+    executedTxHash TEXT,
+    listedAt       BIGINT,
+    executedAt     BIGINT,
+    delistedAt     BIGINT
+);
+
+CREATE TABLE kodex_offers
+(
+    domain         TEXT REFERENCES domains (name) PRIMARY KEY,
+    owner          TEXT REFERENCES addresses (address),
+    offerer        TEXT REFERENCES addresses (address),
+    offerAmount    TEXT,
+    duration       TEXT,
+    active         boolean,
+    executed       boolean,
+    executedPrice  TEXT,
+    offerTxHash    TEXT,
+    executedTxHash TEXT,
+    listedAt       BIGINT,
+    executedAt     BIGINT,
+    delistedAt     BIGINT
 );
