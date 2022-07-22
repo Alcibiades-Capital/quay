@@ -1,5 +1,5 @@
 #! spec.yaml
-name: quay
+name: jetty
 # Check https://www.digitalocean.com/docs/app-platform/#regional-availability
 # for a list of all the available options.
 # You can get region slugs from
@@ -8,7 +8,7 @@ name: quay
 # `fra` stands for Frankfurt (Germany - EU)
 region: nyc
 services:
-  - name: quay
+  - name: jetty
     # Relative to the repository root
     dockerfile_path: Dockerfile
     source_dir: .
@@ -20,7 +20,7 @@ services:
       # Continuous Deployment, here we come!
       deploy_on_push: true
       # !!! Fill in with your details
-      repo: Alcibiades-Capital/quay
+      repo: KodexLabs/jetty
     # Active probe used by DigitalOcean's to ensure our application is healthy
     health_check:
       # The path to our health check endpoint!
@@ -39,19 +39,19 @@ services:
     envs:
       - key: APP_DATABASE__USERNAME
         scope: RUN_TIME
-        value: ${quay.USERNAME}
+        value: ${jetty.USERNAME}
       - key: APP_DATABASE__PASSWORD
         scope: RUN_TIME
-        value: ${quay.PASSWORD}
+        value: ${jetty.PASSWORD}
       - key: APP_DATABASE__HOST
         scope: RUN_TIME
-        value: ${quay.HOSTNAME}
+        value: ${jetty.HOSTNAME}
       - key: APP_DATABASE__PORT
         scope: RUN_TIME
-        value: ${quay.PORT}
+        value: ${jetty.PORT}
       - key: APP_DATABASE__DATABASE_NAME
         scope: RUN_TIME
-        value: ${quay.DATABASE}
+        value: ${jetty.DATABASE}
       # We use DO's APP_URL to inject the dynamically
       # provisioned base url as an environment variable
       - key: APP_APPLICATION__BASE_URL
@@ -59,12 +59,12 @@ services:
         value: ${APP_URL}
       - key: APP_RPC__URI
           scope: RUN_TIME
-          value: ${quay.RPC}
+          value: ${jetty.RPC}
 databases:
   # PG = Postgres
   - engine: PG
     # Database name
-    name: quay
+    name: jetty
     # Again, let's keep the bill lean
     num_nodes: 1
     size: db-s-dev-database

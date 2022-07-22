@@ -5,4 +5,4 @@ database:
   port: 5432
   username: "postgres"
   password: "password"
-  database_name: "quay"
+  database_name: "jetty"
